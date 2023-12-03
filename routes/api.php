@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/register', [AuthController::class, 'register'])->name('');
+Route::post('/register', [AuthController::class, 'register'])->name('')->middleware('log.api.requests');
+Route::post('/login', [AuthController::class, 'login'])->name('')->middleware('log.api.requests');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::middleware('log.api.requests')->group(function () {
@@ -23,6 +24,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         // });
 
         Route::get('/products/search/{name}', [ProductController::class, 'search'])->name('searchproducts');
+        Route::get('/logout', [AuthController::class,'logout'])->name('logout');
     });
 
 });
